@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -20,7 +21,6 @@ public class Audio extends Activity {
 
     private MediaPlayer mediaPlayer;
     private static final String TAG = "myLogs";
-    private boolean orientation = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,69 +28,52 @@ public class Audio extends Activity {
         setContentView(R.layout.player);
         final Button btn = (Button) findViewById(R.id.bPlay);
         final TextView status = (TextView) findViewById(R.id.StatusView);
-        if (savedInstanceState != null) {
-            orientation = savedInstanceState.getBoolean("orientation", false);
-        }
-        if (orientation == false) {
-            btn.setOnClickListener(new View.OnClickListener() {
-                                       long max;
 
+        btn.setOnClickListener(new View.OnClickListener() {
 
-                                       @Override
-                                       public void onClick(View v) {
+                                   @Override
+                                   public void onClick(View v) {
 
-                                           if (mediaPlayer == null) {
-                                               Uri path = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.mysound);
-                                               mediaPlayer = MediaPlayer.create(Audio.this, path);
-                                               max = mediaPlayer.getDuration();
-                                               mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                                                   @Override
-                                                   public void onCompletion(MediaPlayer mp) {
+                                       if (mediaPlayer == null) {
+                                           Uri path = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.mysound);
+                                           mediaPlayer = MediaPlayer.create(Audio.this, path);
+                                           mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                               @Override
+                                               public void onCompletion(MediaPlayer mp) {
 
-                                                       btn.setText("Play");
-                                                       status.setText("Status:Idle");
+                                                   btn.setText("Play");
+                                                   status.setText("Status:Idle");
 
-                                                   }
-                                               });
-                                           }
-
-
-                                           if (mediaPlayer.isPlaying()) {
-                                               btn.setText("Play");
-                                               status.setText("Status:Pause");
-                                               mediaPlayer.pause();
-                                           } else {
-                                               btn.setText("Pause");
-                                               status.setText("Status:Play");
-                                               mediaPlayer.start();
-
-                                           }
-
-                                           if (mediaPlayer.getCurrentPosition() == max) {
-                                               mediaPlayer.reset();
-                                               status.setText("Status:Idle");
-                                               btn.setText("Play");
-                                           }
+                                               }
+                                           });
                                        }
 
+                                        
+                                       if (mediaPlayer.isPlaying()) {
+                                           btn.setText("Play");
+                                           status.setText("Status:Pause");
+                                           mediaPlayer.pause();
+                                       } else {
+                                           btn.setText("Pause");
+                                           status.setText("Status:Play");
+                                           mediaPlayer.start();
 
+                                       }
                                    }
 
-            );
 
-        }
-    }
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean("orientation", true);
+                               }
 
+        );
 
     }
+
+
     @Override
     //реализация выключения музыки
     protected void onDestroy() {
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-             mediaPlayer.stop();
+            mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer = null;
 
