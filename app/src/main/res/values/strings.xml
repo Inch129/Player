@@ -1,0 +1,10 @@
+<resources>
+    <string name="bPlay">Play</string>
+    <string name="textMusic">Music.mp3</string>
+    <string name="app_name">Player</string>
+    <string name="statusNone">Status:None</string>
+    <string name="statusIdle">Status:Idle</string>
+    <string name="statusPlaying">Status:Playing</string>
+    <string name="statusPause">Status:Pause</string>
+    <string name="action_settings">Settings</string>
+</resources>
