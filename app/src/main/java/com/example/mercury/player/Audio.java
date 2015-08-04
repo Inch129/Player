@@ -1,10 +1,13 @@
 package com.example.mercury.player;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.w3c.dom.Text;
+
+import java.util.Objects;
 
 import static com.example.mercury.player.R.raw.mysound;
 
@@ -29,13 +34,14 @@ public class Audio extends Activity {
         final Button btn = (Button) findViewById(R.id.bPlay);
         final TextView status = (TextView) findViewById(R.id.StatusView);
 
+
         btn.setOnClickListener(new View.OnClickListener() {
 
                                    @Override
                                    public void onClick(View v) {
 
-                                        //Проверка, что - бы песня не запускалась несколько раз при нажатии Play(не уверен в ее работоспособности, надо будет потестить)
-                                        //Создаем новый плеер, задаем параметры и
+                                       //Проверка, что - бы песня не запускалась несколько раз при нажатии Play(не уверен в ее работоспособности, надо будет потестить)
+                                       //Создаем новый плеер, задаем параметры и
                                        if (mediaPlayer == null) {
                                            Uri path = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.mysound);
                                            mediaPlayer = MediaPlayer.create(Audio.this, path);
@@ -43,7 +49,7 @@ public class Audio extends Activity {
                                            //Создаем слушатель, который оповестит нас, когда песня закончится
                                            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
 
-                                           //Обработка момента, когда песня заканчивается.
+                                               //Обработка момента, когда песня заканчивается.
                                                @Override
                                                public void onCompletion(MediaPlayer mp) {
                                                    btn.setText("Play");
